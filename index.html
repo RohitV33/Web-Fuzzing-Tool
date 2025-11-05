@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VulnScan</title>
+
+    <!-- ✅ Professional Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ✅ Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- ✅ Light Theme Configuration -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              background: "#ffffff",
+              surface: "#f9fafb",
+              borderGray: "#e5e7eb",
+              textPrimary: "#111827",
+              textSecondary: "#374151",
+              textMuted: "#6b7280",
+              primary: "#0284c7",
+              secondary: "#0ea5e9",
+            },
+            fontFamily: {
+              sans: ["Poppins", "ui-sans-serif", "system-ui"],
+              mono: ["IBM Plex Mono", "ui-monospace", "monospace"],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+
+  <body class="bg-background text-textPrimary font-sans antialiased">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
