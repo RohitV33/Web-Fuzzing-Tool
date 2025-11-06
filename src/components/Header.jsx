@@ -21,7 +21,6 @@ export default function Header() {
           <a href="/" className="hover:text-primary transition">Home</a>
           <a href="/features" className="hover:text-primary transition">Features</a>
           <a href="/docs" className="hover:text-primary transition">Docs</a>
-          <a href="/pricing" className="hover:text-primary transition">Pricing</a>
           <a href="/contact" className="hover:text-primary transition">Contact</a>
           <a href="/about" className="hover:text-primary transition">About</a>
         </nav>

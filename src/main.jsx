@@ -6,7 +6,6 @@ import Layout from "./Layout.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import FeaturesPage from "./pages/FeaturesPage.jsx";
 import DocsPage from "./pages/DocsPage.jsx";
-import PricingPage from "./pages/PricingPage.jsx";
 import ContactPage from "./pages/ContactPage.jsx";
 import AboutPage from "./pages/AboutPage.jsx";
 import SignInPage from "./pages/SignInPages.jsx";
@@ -21,7 +20,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route index element={<HomePage />} />
           <Route path="features" element={<FeaturesPage />} />
           <Route path="docs" element={<DocsPage />} />
-          <Route path="pricing" element={<PricingPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="signin" element={<SignInPage />} />
