@@ -1,4 +1,4 @@
-# VulnScan — Full Stack Web Fuzzing Tool
+# VulnScan — Web Fuzzing Tool
 
 A full-stack web security testing tool built to scan websites for common vulnerabilities like SQL Injection, XSS, and more.
 
