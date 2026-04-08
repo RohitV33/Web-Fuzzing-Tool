@@ -11,7 +11,7 @@ This project was built as a practical learning + real-world implementation of ho
 * Scan websites for vulnerabilities
 * Show live scan progress
 * Generate reports with findings
-* Simulate scans even without backend (demo mode)
+
 
 ---
 
