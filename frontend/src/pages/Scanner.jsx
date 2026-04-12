@@ -397,7 +397,7 @@ export default function Scanner() {
               {isRunning && (
                 <div style={{
                   position: 'absolute', top: 0, left: 0, right: 0, height: '2px',
-                  background: 'linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%)',
+                  backgroundImage: 'linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%)',
                   animation: 'shimmer 1.5s linear infinite',
                   backgroundSize: '200% auto', zIndex: 2,
                 }} />
