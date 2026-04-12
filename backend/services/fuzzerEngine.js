@@ -37,22 +37,28 @@ function detectVulnerability({ url, path, status, body, payload, time, baseline 
   if (payload) {
     const encodedPayload = encodeURIComponent(payload)
 
-    // 🔥 Reflection detection (VERY IMPORTANT)
+    // 🔥 Reflection detection (Case-insensitive)
     if (
-      body.includes(payload) ||
-      body.includes(encodedPayload) ||
-      body.includes(payload.slice(0, 5))
+      b.includes(payload.toLowerCase()) ||
+      b.includes(encodedPayload.toLowerCase())
     ) {
       return { type: 'Input Reflection (Possible XSS)', severity: 'medium' }
     }
 
-    // 🔥 SQLi error (still useful sometimes)
+    // 🔥 SQLi error (expanded for better coverage on legacy systems like testfire)
     if (
       b.includes('sql') ||
       b.includes('syntax') ||
       b.includes('mysql') ||
+      b.includes('pgsql') ||
+      b.includes('sqlite') ||
+      b.includes('oracle') ||
+      b.includes('driver') ||
+      b.includes('database error') ||
       b.includes('query failed') ||
-      b.includes('database error')
+      b.includes('sql exception') ||
+      b.includes('exception occurred') ||
+      b.includes('system error')
     ) {
       return { type: 'Possible SQL Injection (Error)', severity: 'high' }
     }
@@ -126,17 +132,18 @@ async function runFuzz(config, onResult, onProgress, signal) {
     ...(cookies ? { Cookie: cookies } : {}),
   }
 
-  let testUrl = targetUrl
-
-  // 🔥 Ensure at least one param exists
+  // 🔥 Smarter default parameters for discovery if none provided
   if (!targetUrl.includes('?')) {
-    testUrl += '?q=test'
+    // Try to be helpful: if it looks like a login or search page, use those params
+    if (targetUrl.includes('login')) testUrl += '?uid=test&pass=test'
+    else if (targetUrl.includes('search')) testUrl += '?query=test'
+    else testUrl += '?id=1&q=test&page=1'
   }
 
   const urlObj = new URL(testUrl)
   const params = Array.from(urlObj.searchParams.keys())
 
-  // 🔥 Baseline request
+  // 🔥 Baseline request to compare against
   const baseline = await makeRequest(testUrl, headers)
 
   const payloads = customPayloads.length
@@ -153,7 +160,7 @@ async function runFuzz(config, onResult, onProgress, signal) {
 
     // 🔥 Inject payload into all params
     params.forEach(p => {
-      test.searchParams.set(p, encodeURIComponent(payload))
+      test.searchParams.set(p, payload)
     })
 
     const res = await makeRequest(test.toString(), headers)
