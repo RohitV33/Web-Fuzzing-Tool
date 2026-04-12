@@ -13,14 +13,18 @@ function buildFindings(results) {
     'SQL Injection':              { desc: 'SQL injection vulnerability detected. Authentication or data may be compromised.', rec: 'Use parameterized queries or prepared statements. Sanitize all inputs.', cve: 'CWE-89' },
     'Blind SQLi (Time-Based)':   { desc: 'Time-based blind SQL injection detected via response delay.', rec: 'Use parameterized queries. Implement query timeouts.', cve: 'CWE-89' },
     'Reflected XSS':             { desc: 'Reflected XSS detected — user input is echoed unsanitized.', rec: 'Encode all output. Implement Content Security Policy (CSP).', cve: 'CWE-79' },
+    'Input Reflection (Possible XSS)': { desc: 'The server reflected user input in the response body, which could lead to XSS.', rec: 'Implement context-aware output encoding. Use a modern framework that auto-escapes.', cve: 'CWE-79' },
     'Local File Inclusion':      { desc: 'LFI allows reading sensitive server files like /etc/passwd.', rec: 'Whitelist allowed file paths. Never use user input in file operations.', cve: 'CWE-22' },
     'Remote File Inclusion':     { desc: 'RFI allows loading remote scripts, enabling remote code execution.', rec: 'Disable allow_url_include. Whitelist allowed file sources.', cve: 'CWE-98' },
     'SSRF':                      { desc: 'SSRF allows the server to make requests to internal resources.', rec: 'Whitelist allowed URLs. Block private IP ranges in outbound requests.', cve: 'CWE-918' },
     'Command Injection':         { desc: 'OS command injection detected. Attacker may execute arbitrary commands.', rec: 'Never pass user input to system calls. Use safe APIs.', cve: 'CWE-78' },
     'Sensitive File Exposure':   { desc: 'Sensitive file is publicly accessible, potentially exposing credentials.', rec: 'Block access to sensitive files via web server config. Use a secrets vault.', cve: 'CWE-200' },
     'Admin Panel Exposed':       { desc: 'Admin panel is publicly accessible without IP restriction.', rec: 'Restrict admin access by IP whitelist. Enforce MFA.', cve: 'CWE-284' },
-    'Error Information Disclosure': { desc: 'Server returns stack traces, revealing internal implementation details.', rec: 'Implement generic error pages. Disable debug mode in production.', cve: 'CWE-209' },
+    'Login Bypass Detected (High Confidence)': { desc: 'A critical vulnerability was detected where a payload bypassed the authentication mechanism.', rec: 'Use secure session management. Implement multi-factor authentication. Fix underlying SQLi/Logic flaw.', cve: 'CWE-287' },
+    'Authentication Bypass Detected (Heuristic)': { desc: 'Authentication bypass suspected based on significant state changes in the application response.', rec: 'Review authentication logic. Ensure session tokens are invalidated and properly checked.', cve: 'CWE-287' },
+    'Server Error Disclosure (Possible Injection)': { desc: 'A database or system error message was revealed, indicating a high-probability injection point.', rec: 'Disable verbose error messages. Implement global error handlers that return generic messages.', cve: 'CWE-209' },
     'Error Disclosure':          { desc: 'Server returned a 500 error, indicating a possible injection point.', rec: 'Implement proper error handling. Log errors server-side only.', cve: 'CWE-209' },
+    'Major Response Anomaly':   { desc: 'A significantly different response was received for the attack payload compared to the baseline.', rec: 'Manually verify this endpoint for unexpected behavior or logic flaws.', cve: 'CWE-200' },
   }
 
   return results
