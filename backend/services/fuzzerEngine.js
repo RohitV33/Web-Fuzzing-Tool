@@ -13,11 +13,12 @@ const DEFAULT_HEADERS = {
 }
 
 // Security Strings to look for in bypasses
-const BYPASS_KEYWORDS = ['logout', 'sign off', 'sign out', 'my account', 'profile', 'welcome', 'hello', 'logged in']
+const BYPASS_KEYWORDS = ['logout', 'sign off', 'signoff', 'sign out', 'my account', 'profile', 'welcome', 'hello', 'logged in', 'account.jsp', 'main.jsp', 'doLogout']
 const ERROR_PATTERNS  = [
   // SQLi
   'sql syntax', 'mysql_fetch_array', 'oracle error', 'postgresql error', 'sqlite3::', 'db2_execute', 'odbc driver',
   'sql exception', 'exception occurred', 'system error', 'unhandled exception', 'query failed', 'database error',
+  'invalid sql', 'unexpected end of stream', 'missing )', 'incorrect syntax near',
   // Local File Inclusion / System
   'root:x:0:0', 'boot.ini', 'windows/system32', 'sh: 1: ', 'uid=0(root)',
 ]
@@ -102,7 +103,7 @@ async function makeRequest(url, headers, method = 'GET', data = null) {
 
     return {
       status:   res.status,
-      body:     body.slice(0, 15000),
+      body:     body.slice(0, 100000),
       size:     body.length,
       time:     Date.now() - start,
       finalUrl: res.request?.res?.responseUrl || url,
