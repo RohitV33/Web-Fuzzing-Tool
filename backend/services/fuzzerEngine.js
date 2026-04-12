@@ -175,6 +175,7 @@ async function runFuzz(config, onResult, onProgress, signal) {
 
     onResult({
       url: test.toString(),
+      path: test.pathname,
       status: res.status,
       size: res.size,
       time: res.time,

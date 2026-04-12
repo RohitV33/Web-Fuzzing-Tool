@@ -112,14 +112,6 @@ const startScan = async (req, res, next) => {
       }
       summary.riskScore = parseFloat(calcRiskScore(summary))
 
-      await Scan.findByIdAndUpdate(scan._id, {
-        status:      signal.aborted ? 'aborted' : 'completed',
-        results:     results.slice(-500),
-        completedAt: new Date(),
-        duration:    Date.now() - scan.startedAt.getTime(),
-        progress:    100,
-      })
-
       // Auto-generate report (always, even if no findings)
       const report = await Report.create({
         user:     req.user._id,
@@ -130,8 +122,15 @@ const startScan = async (req, res, next) => {
         summary,
       })
 
-      // Link report back to scan
-      await Scan.findByIdAndUpdate(scan._id, { report: report._id })
+      // Link report back to scan and mark as completed
+      await Scan.findByIdAndUpdate(scan._id, {
+        status:      signal.aborted ? 'aborted' : 'completed',
+        results:     results.slice(-500),
+        completedAt: new Date(),
+        duration:    Date.now() - scan.startedAt.getTime(),
+        progress:    100,
+        report:      report._id
+      })
       
     } catch (err) {
       await Scan.findByIdAndUpdate(scan._id, { status: 'failed', error: err.message })
