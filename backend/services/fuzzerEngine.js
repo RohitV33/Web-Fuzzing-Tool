@@ -63,8 +63,8 @@ function detectVulnerability({ url, path, status, body, payload, time, baseline 
       return { type: 'Possible SQL Injection (Error)', severity: 'high' }
     }
 
-    // 🔥 Response diff (SMART FIX)
-    if (baseline && Math.abs(baseline.size - body.length) > baseline.size * 0.05) {
+    // 🔥 Response diff (Only if baseline succeeded)
+    if (baseline && baseline.size > 0 && Math.abs(baseline.size - body.length) > baseline.size * 0.1) {
       return { type: 'Response Anomaly Detected', severity: 'medium' }
     }
 
@@ -153,6 +153,9 @@ async function runFuzz(config, onResult, onProgress, signal) {
   let processed = 0
   const stats = { total: payloads.length, found: 0, vulns: 0, errors: 0 }
 
+  // 🔥 Initial progress update
+  onProgress({ progress: 1, stats })
+
   for (const payload of payloads) {
     if (signal?.aborted) break
 
@@ -196,8 +199,8 @@ async function runFuzz(config, onResult, onProgress, signal) {
       stats,
     })
 
-    // 🔥 Slow down (avoid WAF)
-    await delay(800 + Math.random() * 1200)
+    // 🔥 Faster scanning for better UX (small random jitter)
+    await delay(50 + Math.random() * 150)
   }
 
   return stats

@@ -245,7 +245,7 @@ export default function Scanner() {
                   <div style={{
                     height: '100%', borderRadius: '2px',
                     width: `${progress}%`, transition: 'width 0.4s ease',
-                    background: isDone
+                    backgroundImage: isDone
                       ? 'linear-gradient(90deg, var(--success), #86efac)'
                       : 'linear-gradient(90deg, var(--accent), #a5b4fc, var(--accent))',
                     backgroundSize: '200% auto',
