@@ -132,6 +132,8 @@ async function runFuzz(config, onResult, onProgress, signal) {
     ...(cookies ? { Cookie: cookies } : {}),
   }
 
+  let testUrl = targetUrl
+
   // 🔥 Smarter default parameters for discovery if none provided
   if (!targetUrl.includes('?')) {
     // Try to be helpful: if it looks like a login or search page, use those params
